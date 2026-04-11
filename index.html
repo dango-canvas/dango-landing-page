@@ -5,498 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍡</text></svg>">
     <title>团子画板 - 高效绘制框图的轻量级思维整理工具</title>
+    
+    <!-- SEO Meta Tags -->
     <meta name="description" content="团子画板 (Dango) 是一个为高效绘制框图而生的轻量、原子化的思维整理工具。支持 Notion/Obsidian 嵌入，本地优先，无后端设计，保障数据安全。">
     <meta name="keywords" content="团子画板, Dango, 思维导图, 流程图, 框图, 绘图工具, 白板, Whiteboard, Diagram, MindMap, Obsidian, Notion, Local-First">
     <meta name="author" content="plasma-blue">
+    
+    <!-- Open Graph / Social Media -->
     <meta property="og:title" content="团子画板 - 高效绘制框图的轻量级思维整理工具">
     <meta property="og:description" content="团子画板 (Dango) 是一个为高效绘制框图而生的轻量、原子化的思维整理工具。支持 Notion/Obsidian 嵌入，本地优先，无后端设计。">
     <meta property="og:url" content="https://dango.ink">
     <meta name="twitter:card" content="summary_large_image">
-    <style>
-        :root {
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --border-color: #e2e8f0;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --accent-color: #258292;
-            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-        }
 
-        body {
-            font-family: var(--font-family);
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            margin: 0;
-            padding: 40px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .container {
-            width: 1000px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: auto auto auto auto;
-            gap: 20px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card-header {
-            grid-column: span 3;
-            text-align: center;
-            /* padding: 32px 0; */
-            background: transparent;
-            border: none;
-            box-shadow: none;
-            position: relative;
-        }
-
-        h1 {
-            font-size: 32px;
-            margin: 0 0 16px 0;
-            color: var(--text-primary);
-        }
-
-        .links {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            font-weight: 500;
-        }
-
-        .links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 99px;
-            background: white;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-
-        .links a:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-        }
-
-        .top-controls {
-            position: absolute;
-            top: 32px;
-            right: 0;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .lang-toggle {
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 4px;
-            display: flex;
-        }
-
-        .github-btn {
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px;
-            border-radius: 12px;
-            transition: all 0.2s;
-            background: white;
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            text-decoration: none;
-        }
-        
-        .github-btn:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-        }
-
-        .lang-btn {
-            padding: 6px 12px;
-            border: none;
-            background: transparent;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-
-        .lang-btn.active {
-            background: var(--bg-color);
-            color: var(--accent-color);
-        }
-
-        .hero-section {
-            grid-column: span 2;
-            grid-row: span 2;
-            overflow: hidden;
-            padding: 0;
-            position: relative;
-            min-height: 400px;
-        }
-
-        .hero-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 24px;
-        }
-
-        .intro-section {
-            grid-column: span 1;
-            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
-            border: 1px solid #81e6d9;
-            min-height: 200px;
-        }
-
-        .quick-start-section {
-            grid-column: span 1;
-            min-height: 200px;
-        }
-
-        .feature-card {
-            grid-column: span 1;
-            min-height: 160px;
-        }
-        
-        .feature-card.efficiency { background: linear-gradient(to bottom right, #fff, #f0f9ff); }
-        .feature-card.local { background: linear-gradient(to bottom right, #fff, #fdf4ff); }
-        .feature-card.experience { background: linear-gradient(to bottom right, #fff, #fff7ed); }
-
-        .avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            border: 2px solid #258292;
-            vertical-align: middle;
-            margin-left: 8px;
-        }
-
-        .github-icon {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-            vertical-align: middle;
-        }
-
-        .footer-section {
-            grid-column: span 3;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-            color: var(--text-secondary);
-            background: transparent;
-            border: none;
-            box-shadow: none;
-            padding: 20px 0 0 0;
-        }
-
-        .footer-section a {
-            color: var(--text-secondary);
-            text-decoration: none;
-        }
-        
-        .footer-section a:hover {
-            color: var(--accent-color);
-        }
-
-        h2, h3 {
-            margin: 0 0 12px 0;
-            font-size: 20px;
-            color: var(--text-primary);
-        }
-        
-        p {
-            margin: 0 0 12px 0;
-            line-height: 1.6;
-            color: var(--text-secondary);
-            font-size: 15px;
-        }
-
-        ul, ol {
-            margin: 0;
-            padding-left: 20px;
-            color: var(--text-secondary);
-        }
-
-        li {
-            margin-bottom: 8px;
-            line-height: 1.5;
-            font-size: 14px;
-        }
-
-        strong {
-            color: var(--text-primary);
-        }
-
-        /* Utility */
-        .flex-center {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .tag {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .tag-blue { background: #e0f2fe; color: #0284c7; }
-        .tag-purple { background: #f3e8ff; color: #9333ea; }
-        .tag-orange { background: #ffedd5; color: #ea580c; }
-
-    </style>
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 
-    <div class="container">
-        <!-- Header -->
-        <div class="card card-header">
-            <h1>🍡 团子画板</h1>
-            <div class="links">
-                <a href="https://dango.ink" target="_blank">在线使用</a>
-                <a href="https://addons.mozilla.org/zh-CN/firefox/addon/dango-canvas" target="_blank">Firefox 拓展</a>
+    <div class="toy-container">
+        <!-- Case Switcher (Zen Mode) -->
+        <div class="case-switcher-wrapper">
+            <span class="case-arrow" id="btn-prev" onclick="prevCase()">‹</span>
+            <div class="case-counter" id="btn-pause" onclick="togglePlayPause()">
+                <span id="case-current">01</span>
+                <span id="case-sep">/</span>
+                <span id="case-total">03</span>
             </div>
+            <span class="case-arrow" id="btn-next" onclick="nextCase()">›</span>
             
-            <div class="top-controls">
-                <a href="#" target="_blank" class="github-btn" title="GitHub">
-                    <svg class="github-icon" viewBox="0 0 24 24">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                </a>
-                <div class="lang-toggle">
-                    <button class="lang-btn active" onclick="switchLang('zh')">中</button>
-                    <button class="lang-btn" onclick="switchLang('en')">En</button>
-                </div>
+            <!-- Auto-play Progress Bar -->
+            <div class="case-progress-container">
+                <div class="case-progress-bar" id="case-progress"></div>
             </div>
         </div>
-        <!-- Hero Image -->
-        <div class="card hero-section">
-            <iframe src="https://optim.dango-86t.pages.dev/?embed=true#NoJgNMwAxgRAVPQPBuEN9wR2qAVtQ3K6H9zRswBaAFgGZSiAOANjAEY6B2MY8UgXQjrkAlTQcOdAGPKAJRQKFSIAJxE6xWnSjhW9TqDiALRUB0qYA23QLMmgHXlRdCVMJ1KMBovBQVFWIC8zQL8BgJONAEk6iQpYkUbd5VsBsIb1hgAA92AAJAA9NAOBVAe69APujAQujRagBWbkIQM3oQShZrFXS4eEAHU0A7Y0AmNMAiOUBGTXg0zKIJPzoAoOBaWEBleUAYrOFRVnBTb39C5QhmWEBh-UBBWxTRdOoC0gsFCc6C2EAZXUBTRUBCK0B4fSHZMAkxjaVOqVhAaSNATMVAOYzAHgtRNe5iPyuirhhYQA05oAGdUGRGIxmk6UuAToKgYcA0e0AzsqAfFdAAhGHgkzGySksmzh4FgAEJgOwABQACwALlSAA4AZwAXAB6ZkAQwAbmyqWyAE70gB0AHMAJZUikAVwARhL6QBTXkAYwA9gA7Kly9UClUAW2ZEuZ1EYRoklDWAEpDNQKNb6FB1jBOnQ7NS6UzWQATNmqoXKgUi1UAaytUhyeRK4kCcJCmFwkUAJuSAeD-IgB5KX0kUekXesCRAByyqpIrVkQAZJFAAbygBC3QBayoAi7UAgP9LM50ajcUi5JTEdgqFTQehRiAwWiddaD4CXccleTj7jgWFcMAUBfANqTLpgZidWgFbfnKMqR3KdhAA" class="hero-iframe" allow="clipboard-write"></iframe>
-        </div>
 
-        <!-- Intro -->
-        <div class="card intro-section">
-            <h3 id="title-intro">🎨 组织灵感，一目了然</h3>
-            <p id="text-intro-1">团子画板是一个为<b>高效绘制框图</b>而生的轻量、原子化的思维整理工具。</p>
-            <p id="text-intro-2">它<b>不试图</b>成为复杂的绘图软件或笔记应用，它可以在灵感迸发瞬间，快速组织散乱的想法，并迅速理清关系。</p>
-        </div>
-
-        <!-- Quick Start -->
-        <div class="card quick-start-section">
-            <h3 id="title-quickstart">🚀 快速开始</h3>
-            <ol id="list-quickstart">
-                <li><b>上手玩玩！</b>：随意操作左侧画板！</li>
-                <li><b>组织逻辑</b>：利用快捷键快速连线、对齐、分组。</li>
-            </ol>
-        </div>
-
-        <!-- Features Row -->
-        <div class="card feature-card efficiency">
-            <h3 id="title-efficiency">⚡ 效率优先</h3>
-            <ul id="list-efficiency">
-                <li><b>键入即生成</b>：批量键入想法，瞬间转化为原子节点。</li>
-                <li><b>全键盘操作</b>：手不离位即可完成构图。</li>
-                <li><b>智能排版</b>：一键智能对齐，瞬间整齐专业。</li>
-            </ul>
-        </div>
-
-        <div class="card feature-card local">
-            <h3 id="title-local">🔒 本地优先</h3>
-            <ul id="list-local">
-                <li><b>无后端设计</b>：数据仅存在于本地浏览器。</li>
-                <li><b>链接即数据</b>：分享链接即分享数据，无需注册。</li>
-                <li><b>数据防丢失</b>：撤销重做、多种导出方式保障安全。</li>
-            </ul>
-        </div>
-
-        <div class="card feature-card experience">
-            <h3 id="title-experience">💖 体验优先</h3>
-            <ul id="list-experience">
-                <li><b>心流设计</b>：极简克制，符合直觉。</li>
-                <li><b>嵌入模式</b>：轻松嵌入 Notion、Obsidian 等。</li>
-                <li><b>手写风格</b>：内置手写字体与不规则边框。</li>
-            </ul>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer-section">
-        <div id="footer-contribute">
-            <strong>🤝 贡献与反馈</strong>: <a href="https://github.com/plasma-blue/dango/issues" target="_blank">提交 Issue</a> · <a href="https://github.com/plasma-blue/dango" target="_blank">点亮 Star</a> · <a href="https://blog.dango.ink/about" target="_blank">分享你的作品</a>
-        </div>
-        <div class="flex-center">
-            <strong>License</strong>: AGPL-3.0 | Powered by&nbsp;<a href="https://github.com/plasma-blue" target="_blank" style="color: inherit; text-decoration: none;">plasma-blue</a>
-            <img src="https://avatars.githubusercontent.com/u/67679830" class="avatar" alt="User Avatar">
+        <div class="toy-frame">
+            <iframe id="hero-iframe" src="" class="toy-iframe" allow="clipboard-write"></iframe>
         </div>
     </div>
 
-    <script>
-        const translations = {
-            zh: {
-                title: "团子画板 - 高效绘制框图的轻量级思维整理工具",
-                iframeUrl: "https://optim.dango-86t.pages.dev/?embed=true#NoJgNMwAxgRAVPQPBuEN9wR2qAVtQ3K6H9zRswBaAFgGZSiAOANjAEY6B2MY8UgXQjrkAlTQcOdAGPKAJRQKFSIAJxE6xWnSjhW9TqDiALRUB0qYA23QLMmgHXlRdCVMJ1KMBovBQVFWIC8zQL8BgJONAEk6iQpYkUbd5VsBsIb1hgAA92AAJAA9NAOBVAe69APujAQujRagBWbkIQM3oQShZrFXS4eEAHU0A7Y0AmNMAiOUBGTXg0zKIJPzoAoOBaWEBleUAYrOFRVnBTb39C5QhmWEBh-UBBWxTRdOoC0gsFCc6C2EAZXUBTRUBCK0B4fSHZMAkxjaVOqVhAaSNATMVAOYzAHgtRNe5iPyuirhhYQA05oAGdUGRGIxmk6UuAToKgYcA0e0AzsqAfFdAAhGHgkzGySksmzh4FgAEJgOwABQACwALlSAA4AZwAXAB6ZkAQwAbmyqWyAE70gB0AHMAJZUikAVwARhL6QBTXkAYwA9gA7Kly9UClUAW2ZEuZ1EYRoklDWAEpDNQKNb6FB1jBOnQ7NS6UzWQATNmqoXKgUi1UAaytUhyeRK4kCcJCmFwkUAJuSAeD-IgB5KX0kUekXesCRAByyqpIrVkQAZJFAAbygBC3QBayoAi7UAgP9LM50ajcUi5JTEdgqFTQehRiAwWiddaD4CXccleTj7jgWFcMAUBfANqTLpgZidWgFbfnKMqR3KdhAA",
-                links: ["在线使用", "Firefox 拓展"],
-                intro: {
-                    title: "🎨 组织灵感，一目了然",
-                    text1: "团子画板是一个为<b>高效绘制框图</b>而生的轻量、原子化的思维整理工具。",
-                    text2: "它<b>不试图</b>成为复杂的绘图软件或笔记应用，它可以在灵感迸发瞬间，快速组织散乱的想法，并迅速理清关系。"
-                },
-                quickstart: {
-                    title: "🚀 快速开始",
-                    items: [
-                        "<b>上手玩玩！</b>：随意操作左侧画板！",
-                        "<b>组织逻辑</b>：利用快捷键快速连线、对齐、分组。"
-                    ]
-                },
-                efficiency: {
-                    title: "⚡ 效率优先",
-                    items: [
-                        "<b>键入即生成</b>：批量键入想法，瞬间转化为原子节点。",
-                        "<b>全键盘操作</b>：手不离位即可完成构图。",
-                        "<b>智能排版</b>：一键智能对齐，瞬间整齐专业。"
-                    ]
-                },
-                local: {
-                    title: "🔒 本地优先",
-                    items: [
-                        "<b>无后端设计</b>：数据仅存在于本地浏览器。",
-                        "<b>链接即数据</b>：分享链接即分享数据，无需注册。",
-                        "<b>数据防丢失</b>：撤销重做、多种导出方式保障安全。"
-                    ]
-                },
-                experience: {
-                    title: "💖 体验优先",
-                    items: [
-                        "<b>心流设计</b>：极简克制，符合直觉。",
-                        "<b>嵌入模式</b>：轻松嵌入 Notion、Obsidian 等。",
-                        "<b>手写风格</b>：内置手写字体与不规则边框。"
-                    ]
-                },
-                footer: "<strong>🤝 贡献与反馈</strong>: <a href='https://github.com/plasma-blue/dango/issues' target='_blank'>提交 Issue</a> · <a href='https://github.com/plasma-blue/dango' target='_blank'>点亮 Star</a> · <a href='https://blog.dango.ink/about' target='_blank'>分享你的作品</a>"
-            },
-            en: {
-                title: "Dango - Atomic Thinking Tool for Efficient Diagramming",
-                iframeUrl: "https://optim.dango-86t.pages.dev/?embed=True#NoJgNMwAxgRAVPQPBuEN9gIgQwHYHMD2isYAtACwDM5JAHAGxgCMU9p45AuhA3AKIBmfAJYBjQQFMswgJ4ACAGKCATgGcALkWLkQAThINS9BrRitGnUHACSWNdlUyA4hLGKMqwXiwb91PdQDsjP7cplDmVLAAygC2GIr2ADIYUngAruokIOSkJMGMpCHgYRA5sMAAHuwyAHJ4MgBCGMIA1hIAJhq0AKzcxCAMvvpUoeZdcPCYqhgykRh8YqpS8J09JNrcDDpgIxD0sDzlAA4u4pJi8kpqGqRdY33gRuCmDOaBsHIANngA7jJoYspBDgvCQuv42IFNiwiuZfPtogAjMRtGQAWTwbTE11IOTojHIJhhEF0sAAEtg2sQ2q5vlgZosPliSOQGCEqEYxjtgEw4Ak8MIMB8LqoriRSNpdMQGF0cptCmYuNxYABpMRSBF4OIotCKQQANwkGh0gT6z2M2yJ3PAsAAhMB2AAKAAWqlUh2UAC4APRejB6txxZQAOhwglUTtSCNSyhcwk8qgkqiDceiXtSXto-kz2moBIAlN4QOBtDAmKWoDBityIi63Z6fW1sPgg4IsM1vORObLKGAtGAq-o4JhcHVACbkgHg-mQAeQRgLagmwYBqeHcnhkADIZClUooZAivjgbRouiBDLdewxAqZSOxzOZoIx++YYPQq+WnyVGJXRl+P9ywA85jcOyQGMBs5j0IEVb0L40FgLoYTPo+iFAA",
-                links: ["Try Online", "Firefox Addon"],
-                intro: {
-                    title: "🎨 Organize Inspiration at a Glance",
-                    text1: "Dango is a lightweight, atomic thinking tool designed for <b>efficient diagramming</b>.",
-                    text2: "Capture scattered ideas instantly and organize their relationships without friction."
-                },
-                quickstart: {
-                    title: "🚀 Quick Start",
-                    items: [
-                        "<b>Just Play!</b>: Enter phrases in the bottom input box of the canvas.",
-                        "<b>Generate Nodes</b>: Press Enter to scatter nodes on canvas.",
-                        "<b>Organize</b>: Use shortcuts to connect, align, and group."
-                    ]
-                },
-                efficiency: {
-                    title: "⚡ Efficiency First",
-                    items: [
-                        "<b>Instant Generation</b>: Bulk input ideas into atomic nodes.",
-                        "<b>Keyboard Driven</b>: Connect and align without mouse switching.",
-                        "<b>Smart Layout</b>: One-click alignment for professional look."
-                    ]
-                },
-                local: {
-                    title: "🔒 Local First",
-                    items: [
-                        "<b>No Backend</b>: Data lives only in your local browser.",
-                        "<b>Link as Data</b>: Share links to share data, no registration.",
-                        "<b>Data Safety</b>: Undo/Redo and multiple export options."
-                    ]
-                },
-                experience: {
-                    title: "💖 Experience First",
-                    items: [
-                        "<b>Flow Design</b>: Minimalist interface that stays out of your way.",
-                        "<b>Embed Mode</b>: Easily embed in Notion, Obsidian, blogs.",
-                        "<b>Hand-drawn Style</b>: Optional handwritten fonts and borders."
-                    ]
-                },
-                footer: "<strong>🤝 Contribute</strong>: <a href='https://github.com/plasma-blue/dango/issues' target='_blank'>Submit Issue</a> · <a href='https://github.com/plasma-blue/dango' target='_blank'>Star Project</a> · <a href='https://blog.dango.ink/about' target='_blank'>Share Your Work</a>"
-            }
-        };
+    <div class="manuscript">
+        <!-- Language Switcher -->
+        <div class="lang-nav">
+            <span onclick="setLanguage('zh')" id="btn-zh" class="active">中文 / ZH</span>
+            <span onclick="setLanguage('en')" id="btn-en">ENGLISH / EN</span>
+        </div>
 
-        function switchLang(lang) {
-            const data = translations[lang];
-            
-            // Toggle Buttons
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.lang-btn[onclick="switchLang('${lang}')"]`).classList.add('active');
+        <div class="stamp">Dango<br>Approved</div>
+        
+        <header>
+            <span class="manuscript-tag">Design Manuscript</span>
+            <h1 id="title"></h1>
+            <p class="subtitle" id="subtitle"></p>
+        </header>
 
-            // Update Content
-            // Keep the emoji for h1
-            const appName = lang === 'zh' ? '团子画板' : 'Dango';
-            document.querySelector('h1').innerText = "🍡 " + appName;
-            
-            // Iframe
-            const iframe = document.querySelector('.hero-iframe');
-            if (iframe.src !== data.iframeUrl) {
-                iframe.src = data.iframeUrl;
-            }
-            
-            // Title
-            document.title = data.title;
+        <div class="links">
+            <a href="https://dango.ink" target="_blank" id="link-online" class="primary"></a>
+            <a href="https://addons.mozilla.org/zh-CN/firefox/addon/dango-canvas" target="_blank" id="link-firefox"></a>
+            <a href="https://blog.dango.ink" target="_blank" id="link-blog"></a>
+            <a href="https://github.com/plasma-blue/dango" target="_blank">GitHub</a>
+        </div>
 
-            // Links
-            const linkEls = document.querySelectorAll('.links a');
-            linkEls[0].innerText = data.links[0];
-            linkEls[1].innerText = data.links[1];
+        <section>
+            <h2 id="sec-intro"></h2>
+            <div class="content-block">
+                <h3 id="intro-h3"></h3>
+                <p id="intro-p1"></p>
+                <p id="intro-p2"></p>
+            </div>
+        </section>
 
-            // Intro
-            document.getElementById('title-intro').innerText = data.intro.title;
-            document.getElementById('text-intro-1').innerHTML = data.intro.text1;
-            document.getElementById('text-intro-2').innerHTML = data.intro.text2;
+        <section>
+            <h2 id="sec-usage"></h2>
+            <div class="content-block">
+                <h3 id="usage-h3"></h3>
+                <ul id="usage-list"></ul>
+            </div>
+        </section>
 
-            // Quick Start
-            document.getElementById('title-quickstart').innerText = data.quickstart.title;
-            document.getElementById('list-quickstart').innerHTML = data.quickstart.items.map(i => `<li>${i}</li>`).join('');
+        <section>
+            <h2 id="sec-specs"></h2>
+            <div class="content-block">
+                <h3 id="spec-efficiency-h3"></h3>
+                <p id="spec-efficiency-p"></p>
+            </div>
+            <div class="content-block">
+                <h3 id="spec-local-h3"></h3>
+                <p id="spec-local-p"></p>
+            </div>
+            <div class="content-block">
+                <h3 id="spec-experience-h3"></h3>
+                <p id="spec-experience-p"></p>
+            </div>
+        </section>
 
-            // Features
-            document.getElementById('title-efficiency').innerText = data.efficiency.title;
-            document.getElementById('list-efficiency').innerHTML = data.efficiency.items.map(i => `<li>${i}</li>`).join('');
+        <footer>
+            <div>© 2026 Plasma Blue</div>
+            <div>License: AGPL-3.0</div>
+        </footer>
+    </div>
 
-            document.getElementById('title-local').innerText = data.local.title;
-            document.getElementById('list-local').innerHTML = data.local.items.map(i => `<li>${i}</li>`).join('');
-
-            document.getElementById('title-experience').innerText = data.experience.title;
-            document.getElementById('list-experience').innerHTML = data.experience.items.map(i => `<li>${i}</li>`).join('');
-
-            // Footer
-            document.getElementById('footer-contribute').innerHTML = data.footer;
-        }
-
-        // Auto-detect language
-        (function() {
-            const userLang = navigator.language || navigator.userLanguage;
-            if (userLang && !userLang.startsWith('zh')) {
-                switchLang('en');
-            }
-        })();
-    </script>
-
+    <!-- Scripts -->
+    <script src="assets/script.js"></script>
 </body>
 </html>

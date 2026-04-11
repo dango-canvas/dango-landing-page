@@ -1,0 +1,357 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;700&display=swap');
+
+:root {
+    --paper-bg: #ffffff;
+    --ink-color: #1a1a1a;
+    --muted-ink: #555555;
+    --accent-color: #258292;
+    --grid-color: rgba(37, 130, 146, 0.1);
+    --border-ink: rgba(0, 0, 0, 0.08);
+    --font-serif: "EB Garamond", "Noto Serif SC", serif;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--paper-bg);
+    color: var(--ink-color);
+    font-family: var(--font-serif);
+    line-height: 1.8;
+    min-height: 100vh;
+    display: flex;
+    overflow: hidden; /* Desktop split view */
+}
+
+/* Manuscript Section */
+.manuscript {
+    width: 42%;
+    height: 100vh;
+    background-color: var(--paper-bg);
+    padding: 60px 80px;
+    overflow-y: auto;
+    border-left: 1px solid var(--border-ink);
+    position: relative;
+    background-image: 
+        radial-gradient(var(--grid-color) 1px, transparent 1px);
+    background-size: 24px 24px;
+    z-index: 2;
+}
+
+/* Toy Section */
+.toy-container {
+    flex: 1;
+    height: 100vh;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--paper-bg);
+    position: relative;
+}
+
+.toy-frame {
+    width: 100%;
+    height: 100%;
+    background: var(--paper-bg);
+    overflow: hidden;
+    position: relative;
+}
+
+.toy-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Typography */
+header {
+    margin-bottom: 60px;
+    border-bottom: 2px solid var(--ink-color);
+    padding-bottom: 20px;
+}
+
+.manuscript-tag {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+    display: block;
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -1px;
+}
+
+.subtitle {
+    font-size: 18px;
+    font-style: italic;
+    color: var(--muted-ink);
+}
+
+section {
+    margin-bottom: 48px;
+}
+
+h2 {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 24px;
+    color: var(--muted-ink);
+    display: flex;
+    align-items: center;
+}
+
+h2::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border-ink);
+    margin-left: 20px;
+}
+
+.content-block {
+    margin-bottom: 32px;
+}
+
+h3 {
+    font-size: 22px;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+p {
+    font-size: 16px;
+    margin-bottom: 16px;
+    text-align: justify;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+
+li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+}
+
+b, strong {
+    color: var(--ink-color);
+    font-weight: 600;
+}
+
+/* Footer */
+footer {
+    margin-top: 80px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-ink);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--muted-ink);
+    display: flex;
+    justify-content: space-between;
+}
+
+.links {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.links a {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--ink-color);
+    border: 1px solid var(--ink-color);
+    padding: 8px 16px;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.links a.primary {
+    background: var(--ink-color);
+    color: white;
+    font-weight: 600;
+    padding: 8px 24px;
+}
+
+.links a:hover {
+    background: var(--ink-color);
+    color: white;
+}
+
+.links a.primary:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+/* Decorative elements */
+.stamp {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    width: 80px;
+    height: 80px;
+    border: 2px solid rgba(180, 0, 0, 0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(180, 0, 0, 0.4);
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 800;
+    text-align: center;
+    transform: rotate(15deg);
+    pointer-events: none;
+    text-transform: uppercase;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    body {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+    .manuscript {
+        width: 100%;
+        height: auto;
+        padding: 40px 30px;
+    }
+    .toy-container {
+        width: 100%;
+        height: 80vh;
+        padding: 20px;
+    }
+}
+
+/* Language Nav - Now in Manuscript */
+.lang-nav {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.lang-nav span {
+    cursor: pointer;
+    color: var(--muted-ink);
+    transition: color 0.2s;
+    position: relative;
+}
+
+.lang-nav span.active {
+    color: var(--ink-color);
+    font-weight: 700;
+}
+
+.lang-nav span.active::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--ink-color);
+}
+
+/* Case Switcher - Reverted to Original Minimal Style */
+.case-switcher-wrapper {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    gap: 12px;
+    user-select: none;
+    overflow: hidden;
+}
+
+.case-counter {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--muted-ink);
+    letter-spacing: 1px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 70px; /* Fixed minimum width for the whole counter */
+    gap: 0;
+}
+
+#case-current, #case-total {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+}
+
+#case-sep {
+    display: inline-block;
+    width: 24px; /* Fixed width for the separator / or || */
+    text-align: center;
+    font-weight: 700;
+}
+
+.case-arrow {
+    cursor: pointer;
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--muted-ink);
+    transition: color 0.2s;
+    padding: 0 4px;
+}
+
+.case-arrow:hover {
+    color: var(--ink-color);
+}
+
+/* Auto-play Progress Bar - Thin bottom line */
+.case-progress-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.case-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--accent-color);
+    transition: width 0.1s linear;
+}
