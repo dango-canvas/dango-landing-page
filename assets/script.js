@@ -33,7 +33,7 @@ const content = {
         title: "🍡 Dango Canvas",
         subtitle: "Atomic Thinking Tool for Efficient Diagramming",
         linkOnline: "Start Drawing Now",
-        linkFirefox: "Firefox Extension",
+        linkFirefox: "On Firefox",
         linkBlog: "Blog",
         secIntro: "01. PHILOSOPHY",
         introH3: "Organize Inspiration at a Glance",
