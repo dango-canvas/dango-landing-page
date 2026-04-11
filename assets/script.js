@@ -96,7 +96,7 @@ function updateCase(isAuto = false) {
     
     // Update Iframe Source - Force reload by putting version before hash
     const hash = currentCases[currentCaseIndex];
-    iframe.src = `https://optim.dango-86t.pages.dev/?embed=true&v=${currentCaseIndex}&lang=${currentLang}#${hash}`;
+    iframe.src = `https://dango-app.pages.dev/?embed=true&v=${currentCaseIndex}&lang=${currentLang}#${hash}`;
 
     // Reset and start progress bar
     progressElapsedBeforePause = 0;
