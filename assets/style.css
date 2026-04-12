@@ -175,8 +175,9 @@ footer {
 }
 
 .links {
-    display: flex;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr; /* Fixed ratio for 4 items */
+    gap: 10px;
     margin-bottom: 40px;
 }
 
@@ -186,16 +187,41 @@ footer {
     text-decoration: none;
     color: var(--ink-color);
     border: 1px solid var(--ink-color);
-    padding: 8px 16px;
+    padding: 12px 4px; /* Reduced side padding */
     transition: all 0.2s;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: 0; /* Important for grid items */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .links a.primary {
     background: var(--ink-color);
     color: white;
     font-weight: 600;
-    padding: 8px 24px;
+}
+
+/* For narrower desktop windows, allow 2x2 grid to prevent text overflow */
+@media (max-width: 1400px) and (min-width: 1025px) {
+    .manuscript {
+        padding: 60px 30px; /* Reduce side padding to gain more width */
+    }
+    .links {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    .links a {
+        font-size: 12px;
+        padding: 10px 4px;
+    }
+    .links a.primary, .links a:last-child {
+        grid-column: span 2; /* Primary and last button take full width */
+    }
 }
 
 .links a:hover {
@@ -272,29 +298,24 @@ footer {
     }
     .links {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 12px;
         margin-bottom: 30px;
     }
     .links a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 12px 10px;
-        height: 100%;
+        padding: 14px 10px;
         font-size: 14px;
-        border-radius: 4px; /* Added slight radius for better look */
+        border-radius: 4px;
         background: #fdfdfd;
+        min-width: 0; /* Override desktop min-width */
+        flex: none; /* Override desktop flex */
     }
     .links a.primary {
-        grid-column: span 2;
+        grid-column: 1 / -1;
         padding: 16px 20px;
         font-size: 16px;
         background: var(--ink-color);
-    }
-    .links a:last-child:not(.primary) {
-        grid-column: span 2; /* Make the last button full width if it's the 4th one */
+        font-weight: 700;
     }
     .stamp {
         top: 20px;
