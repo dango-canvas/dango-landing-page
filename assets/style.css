@@ -444,3 +444,115 @@ footer {
     background: var(--accent-color);
     transition: width 0.1s linear;
 }
+
+/* ==========================================================================
+   [TEMPORARY / EASILY STRIPPABLE] Migration Notice Banner / Toast
+   ========================================================================== */
+.migration-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    max-width: 480px;
+    background: #ffffff;
+    border: 1px solid var(--border-ink);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 9999;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--ink-color);
+    line-height: 1.5;
+    animation: toast-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.migration-toast.hidden {
+    display: none;
+}
+
+.migration-toast-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.migration-toast-text {
+    flex: 1;
+}
+
+.migration-toast-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--muted-ink);
+    line-height: 1;
+    padding: 2px 4px;
+}
+
+.migration-toast-close:hover {
+    color: var(--ink-color);
+}
+
+.migration-toast-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.migration-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.migration-btn-primary {
+    background: var(--ink-color);
+    color: #ffffff;
+    border: 1px solid var(--ink-color);
+}
+
+.migration-btn-primary:hover {
+    background: #333333;
+}
+
+.migration-btn-subtle {
+    background: transparent;
+    color: var(--muted-ink);
+    border: 1px solid var(--border-ink);
+}
+
+.migration-btn-subtle:hover {
+    color: var(--ink-color);
+    border-color: var(--muted-ink);
+}
+
+@keyframes toast-slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 600px) {
+    .migration-toast {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        max-width: none;
+    }
+}
+

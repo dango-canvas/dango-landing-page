@@ -207,10 +207,87 @@ function setLanguage(lang) {
     // Toggle active state
     document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+    updateMigrationToastText();
+}
+
+/* ==========================================================================
+   [TEMPORARY / EASILY STRIPPABLE] Domain Migration Notice Logic
+   ========================================================================== */
+function isOldDomain() {
+    const hostname = (window.location && window.location.hostname) || '';
+    const norm = hostname.toLowerCase();
+    return norm === 'dango.ink' || norm.endsWith('.dango.ink');
+}
+
+function updateMigrationToastText() {
+    const toast = document.getElementById('migration-toast');
+    if (!toast) return;
+
+    const noticeText = currentLang === 'en'
+        ? '📢 Notice: dango.ink is expiring soon. Dango Canvas is moving to GitHub Pages.'
+        : '📢 域名迁移公告：dango.ink 即将到期，团子画板已迁移至 GitHub Pages。';
+    const visitText = currentLang === 'en' ? 'Visit New Site' : '前往新地址';
+    const guideText = currentLang === 'en' ? 'Migration Guide' : '迁移指引';
+    const guideUrl = currentLang === 'en'
+        ? 'https://dango-canvas.github.io/blog/migrating-to-github-pages-en.html'
+        : 'https://dango-canvas.github.io/blog/migrating-to-github-pages.html';
+
+    const textEl = toast.querySelector('.migration-toast-text');
+    if (textEl) textEl.textContent = noticeText;
+    const guideBtn = document.getElementById('btn-migration-guide');
+    if (guideBtn) {
+        guideBtn.textContent = guideText;
+        guideBtn.href = guideUrl;
+    }
+    const visitBtn = document.getElementById('btn-migration-visit');
+    if (visitBtn) visitBtn.textContent = visitText;
+}
+
+function initMigrationToast() {
+    if (!isOldDomain()) return;
+
+    let hasRead = false;
+    try {
+        hasRead = localStorage.getItem('dango_migration_read') === 'true';
+    } catch {
+        hasRead = false;
+    }
+    if (hasRead) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'migration-toast';
+    toast.id = 'migration-toast';
+
+    toast.innerHTML = `
+        <div class="migration-toast-content">
+            <span class="migration-toast-text"></span>
+            <button class="migration-toast-close" id="btn-migration-close" title="Dismiss">&times;</button>
+        </div>
+        <div class="migration-toast-actions">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="migration-btn migration-btn-subtle" id="btn-migration-guide"></a>
+            <a href="https://dango-canvas.github.io/" target="_blank" rel="noopener noreferrer" class="migration-btn migration-btn-primary" id="btn-migration-visit"></a>
+        </div>
+    `;
+
+    document.body.appendChild(toast);
+    updateMigrationToastText();
+
+    const markReadAndDismiss = () => {
+        try {
+            localStorage.setItem('dango_migration_read', 'true');
+        } catch {}
+        toast.remove();
+    };
+
+    document.getElementById('btn-migration-close')?.addEventListener('click', markReadAndDismiss);
+    document.getElementById('btn-migration-guide')?.addEventListener('click', markReadAndDismiss);
+    document.getElementById('btn-migration-visit')?.addEventListener('click', markReadAndDismiss);
 }
 
 // Init
 (function init() {
     const userLang = navigator.language || navigator.userLanguage;
     setLanguage(userLang.startsWith('zh') ? 'zh' : 'en');
+    initMigrationToast();
 })();
