@@ -88,15 +88,15 @@ const UPDATE_INTERVAL = 100; // Update progress every 100ms
 function updateCase(isAuto = false) {
     const currentCases = cases[currentLang];
     const iframe = document.getElementById('hero-iframe');
-    
+
     // Update Counter UI with / or ||
     document.getElementById('case-current').innerText = String(currentCaseIndex + 1).padStart(2, '0');
     document.getElementById('case-sep').innerText = isPaused ? "||" : "/";
     document.getElementById('case-total').innerText = String(currentCases.length).padStart(2, '0');
-    
+
     // Update Iframe Source - Force reload by putting version before hash
     const hash = currentCases[currentCaseIndex];
-    iframe.src = `https://dango-app.pages.dev/?embed=true&v=${currentCaseIndex}&lang=${currentLang}#${hash}`;
+    iframe.src = `https://dango-canvas.github.io/dango/?embed=true&v=${currentCaseIndex}&lang=${currentLang}#${hash}`;
 
     // Reset and start progress bar
     progressElapsedBeforePause = 0;
@@ -111,10 +111,10 @@ function updateCase(isAuto = false) {
 
 function togglePlayPause() {
     isPaused = !isPaused;
-    
+
     // Re-render the counter text to show || or /
     document.getElementById('case-sep').innerText = isPaused ? "||" : "/";
-    
+
     if (isPaused) {
         // Save current progress and stop
         progressElapsedBeforePause += (Date.now() - progressStartTime);
@@ -129,18 +129,18 @@ function togglePlayPause() {
 function resumeAutoPlay() {
     clearInterval(progressInterval);
     clearTimeout(autoPlayTimer);
-    
+
     const progressBar = document.getElementById('case-progress');
     progressStartTime = Date.now();
-    
+
     const remaining = PLAY_DURATION - progressElapsedBeforePause;
-    
+
     progressInterval = setInterval(() => {
         let currentSessionElapsed = Date.now() - progressStartTime;
         let totalElapsed = progressElapsedBeforePause + currentSessionElapsed;
         let progress = Math.min((totalElapsed / PLAY_DURATION) * 100, 100);
         progressBar.style.width = progress + '%';
-        
+
         if (progress >= 100) {
             clearInterval(progressInterval);
         }
@@ -171,24 +171,24 @@ function prevCase() {
 
 function setLanguage(lang) {
     currentLang = lang;
-    currentCaseIndex = 0; 
+    currentCaseIndex = 0;
     const data = content[lang];
-    
+
     document.getElementById('title').innerText = data.title;
     document.getElementById('subtitle').innerText = data.subtitle;
     document.getElementById('link-online').innerText = data.linkOnline;
     document.getElementById('link-firefox').innerText = data.linkFirefox;
     document.getElementById('link-blog').innerText = data.linkBlog;
-    
+
     document.getElementById('sec-intro').innerText = data.secIntro;
     document.getElementById('intro-h3').innerText = data.introH3;
     document.getElementById('intro-p1').innerHTML = data.introP1;
     document.getElementById('intro-p2').innerHTML = data.introP2;
-    
+
     document.getElementById('sec-usage').innerText = data.secUsage;
     document.getElementById('usage-h3').innerText = data.usageH3;
     document.getElementById('usage-list').innerHTML = data.usageList;
-    
+
     document.getElementById('sec-specs').innerText = data.secSpecs;
     document.getElementById('spec-efficiency-h3').innerText = data.specEfficiencyH3;
     document.getElementById('spec-efficiency-p').innerText = data.specEfficiencyP;
@@ -225,8 +225,8 @@ function updateMigrationToastText() {
     if (!toast) return;
 
     const noticeText = currentLang === 'en'
-        ? '📢 Notice: dango.ink is expiring soon. Dango Canvas is moving to GitHub Pages.'
-        : '📢 域名迁移公告：dango.ink 即将到期，团子画板已迁移至 GitHub Pages。';
+        ? '📢 dango.ink is expiring soon. Dango Canvas is moving to GitHub Pages.'
+        : '📢 dango.ink 即将到期，团子画板已迁移至 GitHub Pages。';
     const visitText = currentLang === 'en' ? 'Visit New Site' : '前往新地址';
     const guideText = currentLang === 'en' ? 'Migration Guide' : '迁移指引';
     const guideUrl = currentLang === 'en'
@@ -266,7 +266,7 @@ function initMigrationToast() {
         </div>
         <div class="migration-toast-actions">
             <a href="#" target="_blank" rel="noopener noreferrer" class="migration-btn migration-btn-subtle" id="btn-migration-guide"></a>
-            <a href="https://dango-canvas.github.io/" target="_blank" rel="noopener noreferrer" class="migration-btn migration-btn-primary" id="btn-migration-visit"></a>
+            <a href="https://dango-canvas.github.io/dango/" target="_blank" rel="noopener noreferrer" class="migration-btn migration-btn-primary" id="btn-migration-visit"></a>
         </div>
     `;
 
