@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍡</text></svg>">
+    <title>团子画板 - 高效绘制框图的轻量级思维整理工具</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="团子画板 (Dango) 是一个为高效绘制框图而生的轻量、原子化的思维整理工具。支持 Notion/Obsidian 嵌入，本地优先，无后端设计，保障数据安全。">
+    <meta name="keywords" content="团子画板, Dango, 思维导图, 流程图, 框图, 绘图工具, 白板, Whiteboard, Diagram, MindMap, Obsidian, Notion, Local-First">
+    <meta name="author" content="plasma-blue">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="团子画板 - 高效绘制框图的轻量级思维整理工具">
+    <meta property="og:description" content="团子画板 (Dango) 是一个为高效绘制框图而生的轻量、原子化的思维整理工具。支持 Notion/Obsidian 嵌入，本地优先，无后端设计。">
+    <meta property="og:url" content="https://dango-canvas.github.io/page/">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+    <div class="toy-container">
+        <!-- Case Switcher (Zen Mode) -->
+        <div class="case-switcher-wrapper">
+            <span class="case-arrow" id="btn-prev" onclick="prevCase()">‹</span>
+            <div class="case-counter" id="btn-pause" onclick="togglePlayPause()">
+                <span id="case-current">01</span>
+                <span id="case-sep">/</span>
+                <span id="case-total">03</span>
+            </div>
+            <span class="case-arrow" id="btn-next" onclick="nextCase()">›</span>
+            
+            <!-- Auto-play Progress Bar -->
+            <div class="case-progress-container">
+                <div class="case-progress-bar" id="case-progress"></div>
+            </div>
+        </div>
+
+        <div class="toy-frame">
+            <iframe id="hero-iframe" src="" class="toy-iframe" allow="clipboard-write"></iframe>
+        </div>
+    </div>
+
+    <div class="manuscript">
+        <!-- Language Switcher -->
+        <div class="lang-nav">
+            <span onclick="setLanguage('zh')" id="btn-zh" class="active">中文 / ZH</span>
+            <span onclick="setLanguage('en')" id="btn-en">ENGLISH / EN</span>
+        </div>
+
+        <div class="stamp">Dango<br>Approved</div>
+        
+        <header>
+            <span class="manuscript-tag">Design Manuscript</span>
+            <h1 id="title"></h1>
+            <p class="subtitle" id="subtitle"></p>
+        </header>
+
+        <div class="links">
+            <a href="https://dango-canvas.github.io/dango/" target="_blank" id="link-online" class="primary"></a>
+            <a href="https://addons.mozilla.org/zh-CN/firefox/addon/dango-canvas" target="_blank" id="link-firefox"></a>
+            <a href="https://dango-canvas.github.io/blog/" target="_blank" id="link-blog"></a>
+            <a href="https://github.com/dango-canvas/dango" target="_blank">GitHub</a>
+        </div>
+
+        <section>
+            <h2 id="sec-intro"></h2>
+            <div class="content-block">
+                <h3 id="intro-h3"></h3>
+                <p id="intro-p1"></p>
+                <p id="intro-p2"></p>
+            </div>
+        </section>
+
+        <section>
+            <h2 id="sec-usage"></h2>
+            <div class="content-block">
+                <h3 id="usage-h3"></h3>
+                <ul id="usage-list"></ul>
+            </div>
+        </section>
+
+        <section>
+            <h2 id="sec-specs"></h2>
+            <div class="content-block">
+                <h3 id="spec-efficiency-h3"></h3>
+                <p id="spec-efficiency-p"></p>
+            </div>
+            <div class="content-block">
+                <h3 id="spec-local-h3"></h3>
+                <p id="spec-local-p"></p>
+            </div>
+            <div class="content-block">
+                <h3 id="spec-experience-h3"></h3>
+                <p id="spec-experience-p"></p>
+            </div>
+        </section>
+
+        <footer>
+            <div>© 2026 Plasma Blue</div>
+            <div>License: AGPL-3.0</div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/script.js"></script>
+</body>
+</html>
